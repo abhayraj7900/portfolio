@@ -38,7 +38,7 @@ body.light {
   transition: 0.3s ease;
   padding: 20px;
   border-right: none;
-  z-index: 99;
+  z-index: 999;
   overflow: hidden;
   box-shadow: 10px 0 30px rgba(0, 0, 0, 0.25);
 }
@@ -53,6 +53,10 @@ body.light .sidebar {
 
 .sidebar.closed {
   width: 85px;
+}
+
+.mobileOverlay {
+  display: none;
 }
 
 /* TOP BUTTONS */
@@ -186,7 +190,7 @@ body.light .sideNav a:hover {
   color: #0284c7;
 }
 
-/* SOCIAL ICONS FIXED */
+/* SOCIAL ICONS */
 .socialLinks {
   position: absolute;
   bottom: 24px;
@@ -575,65 +579,32 @@ body.light .contactLinks a {
   color: white;
 }
 
-/* RESPONSIVE - TABLET */
+/* RESPONSIVE TABLET + MOBILE */
 @media (max-width: 768px) {
+  .sidebar {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   .sidebar.open {
-    width: 230px;
-  }
-
-  .mainContent,
-  .sidebar.closed ~ .mainContent {
-    margin-left: 85px;
-    width: calc(100% - 85px);
-    padding: 25px;
-  }
-
-  .socialLinks {
-    left: 14px;
-    right: 14px;
-    gap: 9px;
-  }
-
-  .socialLinks a {
-    width: 32px;
-    height: 32px;
-    font-size: 17px;
-  }
-
-  .heroBox {
-    padding: 28px;
-  }
-
-  .hero h1 {
-    font-size: 38px;
-  }
-
-  .hero h3 {
-    font-size: 20px;
-  }
-
-  .heroBtns a {
-    margin-bottom: 12px;
-  }
-
-  .contactBox {
-    padding: 25px;
-  }
-
-  .infoItem {
-    align-items: flex-start;
-  }
-}
-
-/* RESPONSIVE - PHONE PERFECT */
-@media (max-width: 480px) {
-  .sidebar.open {
-    width: 215px;
+    width: 250px;
   }
 
   .sidebar.closed {
-    width: 68px;
-    padding: 14px;
+    width: 70px;
+    padding: 14px 10px;
+  }
+
+  .mobileOverlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.55);
+    z-index: 998;
+  }
+
+  .sidebar.closed ~ .mobileOverlay {
+    display: none;
   }
 
   .topButtons {
@@ -663,32 +634,29 @@ body.light .contactLinks a {
   }
 
   .mainContent,
-  .sidebar.closed ~ .mainContent {
-    margin-left: 68px;
-    width: calc(100% - 68px);
+  .sidebar.closed ~ .mainContent,
+  .sidebar.open ~ .mainContent {
+    margin-left: 70px;
+    width: calc(100% - 70px);
     padding: 16px;
   }
 
-  .socialLinks {
-    left: 12px;
-    right: 12px;
-    bottom: 18px;
-    height: 54px;
-    padding: 8px;
-    gap: 6px;
-  }
-
-  .socialLinks a {
-    width: 31px;
-    height: 31px;
-    font-size: 16px;
+  .sidebar.open .socialLinks {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin-top: 18px;
+    margin-bottom: 20px;
   }
 
   .hero {
     min-height: 100vh;
+    padding-top: 20px;
   }
 
   .heroBox {
+    width: 100%;
     padding: 24px 18px;
     border-radius: 20px;
   }
@@ -712,13 +680,14 @@ body.light .contactLinks a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
 
   .heroBtns a {
     width: 100%;
     max-width: 240px;
+    margin: 0;
     text-align: center;
-    margin: 6px 0;
   }
 
   .section {
@@ -740,7 +709,7 @@ body.light .contactLinks a {
   .timeline,
   .infoItem,
   .contactBox {
-    padding: 20px;
+    padding: 18px;
   }
 
   .infoItem {

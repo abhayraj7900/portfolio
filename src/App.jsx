@@ -22,12 +22,33 @@ import resumeFile from "./assets/resume.pdf";
 import "./App.css";
 
 function App() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => window.innerWidth > 768);
   const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "light";
   }, [darkMode]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setOpen(false);
+      } else {
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleMenuClick = () => {
+    if (window.innerWidth <= 768) {
+      setOpen(false);
+    }
+  };
 
   const menuItems = [
     { name: "About", icon: <FaUser />, id: "about" },
@@ -67,7 +88,12 @@ function App() {
 
         <nav className="sideNav">
           {menuItems.map((item) => (
-            <a href={`#${item.id}`} key={item.id} title={item.name}>
+            <a
+              href={`#${item.id}`}
+              key={item.id}
+              title={item.name}
+              onClick={handleMenuClick}
+            >
               {item.icon}
               {open && <span>{item.name}</span>}
             </a>
@@ -91,6 +117,8 @@ function App() {
           </div>
         )}
       </aside>
+
+      {open && <div className="mobileOverlay" onClick={() => setOpen(false)}></div>}
 
       <main className="mainContent">
         <section className="hero">
